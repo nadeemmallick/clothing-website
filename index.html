@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendyThreads</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <!--header which contains the navigation links-->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">TrendyThreads – Online Clothing Marketplace</div>
+            <ul class="nav-link">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Product</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="cat-btn" onclick="toggleCart()">
+                    <i class="fa-solid fa-cart-shopping"></i> Cart
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+    <!-- Hero section which contains the main banner -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1>Premium Fashion</h1>
+            <p>TrendyThreads is your destination for premium fashion and luxury clothing. Discover a curated collection
+                of stylish apparel and accessories for men and women, designed for comfort and elegance. Shop the latest
+                trends, enjoy a seamless shopping experience, and elevate your wardrobe with handpicked styles from top
+                brands. Fast shipping, secure checkout, and dedicated customer support make TrendyThreads the perfect
+                choice for fashion lovers.</p>
+            <a href="#products" class="cat-btn">Shop Collection</a>
+        </div>
+    </section>
+
+    <!-- Products Section which contains the featured items -->
+    <section class="products" id="products">
+        <div class="section-title">
+            <h2>Featured Collection</h2>
+            <p>Explore the latest trends in fashion.</p>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterProducts('all')">All Items</button>
+            <button class="filter-btn" onclick="filterProducts('men')">Men's</button>
+            <button class="filter-btn" onclick="filterProducts('women')">Women's</button>
+            <button class="filter-btn" onclick="filterProducts('accessories')">Accessories</button>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+            <!-- Products will be loaded by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Cart Modal with shopping cart items -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3><i class="fas fa-shopping-bag"></i> Shopping Cart</h3>
+                <button class="close-cart" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+            </div>
+
+            <!-- Cart Items -->
+            <div id="cartItems">
+                <div class="empty-cart">
+                    <div class="empty-cart-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+
+            <!-- Cart Total -->
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <div class="total-price" id="totalPrice">Total: $0.00</div>
+                <button class="checkout-btn" onclick="showCheckout()">Proceed to Checkout</button>
+            </div>
+
+            <!-- Checkout Form -->
+            <div class="checkout-form" id="checkoutForm">
+                <button class="back-to-cart" onclick="hideCheckout()"><i class="fas fa-arrow-left"></i> Back to
+                    Cart</button>
+
+                <form onsubmit="processOrder(event)">
+                    <div class="form-section">
+                        <h4><i class="fas fa-box"></i> Shipping Information</h4>
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Street Address</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="zipCode">ZIP Code</label>
+                                <input type="text" id="zipCode" name="zipCode" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <select id="state" name="state" required>
+                                <option value="">Select State</option>
+                                <option value="UP">Uttar Pradesh</option>
+                                <option value="BR">Bihar</option>
+                                <option value="UK">Uttarakhand</option>
+                                <option value="AP">Andhra Pradesh</option>
+                                <option value="WB">West Bengal</option>
+                                <option value="J&K">Jammu & Kashmir</option>
+                                <option value="AS">Assam</option>
+                                <option value="GJ">Gujarat</option>
+                                <option value="HR">Haryana</option>
+                                <option value="JH">Jharkhand</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4><i class="fas fa-credit-card"></i>Payment Information</h4>
+                        <div class="payment-methods">
+                            <div class="payment-method active" onclick="selectPayment('credit')"><i
+                                    class="fas fa-credit-card"></i>Credit Card</div>
+                            <div class="payment-method" onclick="selectPayment('paypal')"><i
+                                    class="fab fa-paypal"></i>PayPal</div>
+                            <div class="payment-method" onclick="selectPayment('googlepay')"><i
+                                    class="fab fa-google-pay"></i>Google Pay</div>
+                        </div>
+                        <div id="creditCardForm">
+                            <div class="form-group">
+                                <label for="cardNumber">Card Number</label>
+                                <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456"
+                                    required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="expiryDate">Expiry Date</label>
+                                    <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cvv">CVV</label>
+                                    <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardName">Name on Card</label>
+                                <input type="text" id="cardName" name="cardName" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="total-price" id="checkoutTotal">Total: $0.00</div>
+                    <button type="submit" class="place-order-btn"><i class="fas fa-check"></i> Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#returns">Returns & Exchanges</a>
+                <a href="#shipping">Shipping Info</a>
+                <a href="#support">Customer Support</a>
+            </div>
+            <p>&copy; 2025 LUXE Premium Fashion. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+
+    </script>
+</body>
+
+</html>
+
+
+
+
+<script src="script.js"></script>
+</body>
+
+</html>
