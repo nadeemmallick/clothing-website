@@ -12,3 +12,20 @@ const featureCard = `
         </div>
     </div>
 `
+
+const cartItems = ` <div class="cart-item">
+                    <img src="${item.image}" alt="${item.title}" class="cart-item-image">
+                    <div class="cart-item-info">
+                       <div class="cart-item-title">${item.title}</div>
+                       <div class="cart-item-price">${item.price * item.quantity.toFixed(2)}</div>
+                       <div class="cart quantity-controls">
+                        <button class = " quantity-btn" onclick="updateQuantity(${item.id},-1)"><i class="fas fa-minus"></i></button>
+                        <span class="quantity">${item.quantity}</span>
+                        <button class = " quantity-btn" onclick="updateQuantity(${item.id},1)"><i class="fas fa-plus"></i></button>
+                            
+                       </div>
+                    </div>
+                </div> `
+
+
+                
